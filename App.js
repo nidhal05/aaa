@@ -1,6 +1,6 @@
-import { NavigationContainer } from '@react-navigation/native'; // Add this import
 import React from 'react';
-import { AuthProvider } from './src/services/auth';
+import { NavigationContainer } from '@react-navigation/native';
+import { AuthProvider } from './src/services/auth'; // Ajustement du chemin
 import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App() {

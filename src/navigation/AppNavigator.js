@@ -1,12 +1,12 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { useAuth } from '../services/auth';
 import AuthNavigator from './AuthNavigator';
 import Dashboard from '../screens/User/Dashboard';
-import AdminDashboard from '../screens/Admin/AdminDashboard';
 import PredictionScreen from '../screens/User/PredictionScreen';
+import AdminDashboard from '../screens/Admin/AdminDashboard';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 export default function AppNavigator() {
   const { user } = useAuth();
@@ -14,16 +14,29 @@ export default function AppNavigator() {
   return (
     <Stack.Navigator>
       {user ? (
-        user.email === 'admin@example.com' ? (
-          <Stack.Screen name="Admin" component={AdminDashboard} />
-        ) : (
-          <>
-            <Stack.Screen name="Dashboard" component={Dashboard} />
-            <Stack.Screen name="Predictions" component={PredictionScreen} />
-          </>
-        )
+        <>
+          <Stack.Screen
+            name="Dashboard"
+            component={Dashboard}
+            options={{ title: 'Tableau de bord' }}
+          />
+          <Stack.Screen
+            name="PredictionScreen"
+            component={PredictionScreen}
+            options={{ title: 'Prédictions' }}
+          />
+          <Stack.Screen
+            name="AdminDashboard"
+            component={AdminDashboard}
+            options={{ title: 'Admin Dashboard' }}
+          />
+        </>
       ) : (
-        <Stack.Screen name="Auth" component={AuthNavigator} options={{ headerShown: false }} />
+        <Stack.Screen
+          name="Auth"
+          component={AuthNavigator}
+          options={{ headerShown: false }}
+        />
       )}
     </Stack.Navigator>
   );

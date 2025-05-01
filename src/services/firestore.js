@@ -1,7 +1,8 @@
 import { initializeApp } from 'firebase/app';
-import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import { initializeAuth, getReactNativePersistence, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getDatabase } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDe5UivD7aimcAUsDE5Maxettl0oyA19yE",
@@ -17,9 +18,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(AsyncStorage),
+persistence: getReactNativePersistence(AsyncStorage),
 });
 
-const db = getFirestore(app);
+
+
+// Configurer la persistance de l'authentification
+setPersistence(auth, browserLocalPersistence)
+  .catch((error) => {
+    console.error('Erreur lors de la configuration de la persistance:', error);
+  });
+
+// Initialiser Realtime Database
+const db = getDatabase(app);
 
 export { auth, db };
